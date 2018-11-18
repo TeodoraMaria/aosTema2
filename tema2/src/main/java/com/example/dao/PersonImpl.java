@@ -83,16 +83,33 @@ public class PersonImpl implements PersonDAO {
 		return null;
 	}
 	
-	public void delete(Person person) {
+	public void update(Person person, Person newPerson) {
 		try {
-					
 			Person found = findPerson(person);
 			em = emf.createEntityManager();
-			em.merge(found);
+			person = em.find(Person.class, found.getId());
 			em.getTransaction().begin();
-			em.remove(found);
+			person.setName(newPerson.getName());
+			person.setEmail(newPerson.getEmail());
+			em.merge(person);
 			em.getTransaction().commit();
-			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public void delete(Person person) {
+		try {
+			Person found = findPerson(person);
+			em = emf.createEntityManager();
+			person = em.find(Person.class, found.getId());
+			em.getTransaction().begin();
+			em.remove(person);
+			em.getTransaction().commit();
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {

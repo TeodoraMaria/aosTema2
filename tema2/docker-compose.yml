@@ -11,7 +11,7 @@ services:
       - MYSQL_DATABASE=test
       - MYSQL_PASSWORD=root
   spring-boot-jpa-docker-webapp:
-    image: tema2v6
+    image: app
     depends_on:
       - docker-mysql
     ports:
